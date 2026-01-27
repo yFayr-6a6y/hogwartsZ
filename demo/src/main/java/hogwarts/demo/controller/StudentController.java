@@ -50,11 +50,6 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    // ──────────────── Методы поиска ───────────────────────────────────────
-
-    /**
-     * Получение студентов определённого возраста (точное совпадение)
-     */
     @GetMapping("/age/{age}")
     public Collection<Student> getStudentsByAge(@PathVariable int age) {
         return studentService.findStudentsByAge(age);

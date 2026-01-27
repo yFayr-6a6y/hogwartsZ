@@ -1,10 +1,10 @@
-package hogwarts.demo.service;          // ← было ru.hogwarts.school.service
+package hogwarts.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import hogwarts.demo.model.Student;               // ← было ru.hogwarts.school.model
-import hogwarts.demo.repository.StudentRepository; // ← было ru.hogwarts.school.repository
+import hogwarts.demo.model.Student;
+import hogwarts.demo.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -18,7 +18,6 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
-    // ── CRUD через репозиторий ─────────────────────────────────────
 
     public Student createStudent(Student student) {
         return studentRepository.save(student);
@@ -41,7 +40,6 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    // Примеры методов поиска по условию (по заданию должны использоваться)
     public Collection<Student> findStudentsByAge(int age) {
         return studentRepository.findByAge(age);
     }
@@ -50,5 +48,4 @@ public class StudentService {
         return studentRepository.findByAgeBetween(min, max);
     }
 
-    // и т.д. — остальные методы поиска, которые у вас уже были
 }

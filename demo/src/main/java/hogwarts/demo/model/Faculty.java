@@ -15,17 +15,14 @@ public class Faculty {
     private String name;
     private String color;
 
-    // Конструктор по умолчанию (обязателен для JPA)
     public Faculty() {
     }
 
-    // Конструктор с параметрами (удобен при создании новых объектов)
     public Faculty(String name, String color) {
         this.name = name;
         this.color = color;
     }
 
-    // Геттеры и сеттеры
     public Long getId() {
         return id;
     }
@@ -50,7 +47,6 @@ public class Faculty {
         this.color = color;
     }
 
-    // toString — полезен для отладки и логирования
     @Override
     public String toString() {
         return "Faculty{" +
