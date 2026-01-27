@@ -48,4 +48,12 @@ public class FacultyService {
         return facultyRepository.findByName(name);
     }
 
+
+    public Collection<Faculty> findByNameOrColor(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return getAllFaculties();
+        }
+        return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(query, query);
+    }
+
 }

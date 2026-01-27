@@ -1,6 +1,7 @@
 package hogwarts.demo.controller;
 
 
+import hogwarts.demo.model.Faculty;
 import hogwarts.demo.model.Student;
 import hogwarts.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,9 +61,16 @@ public class StudentController {
      */
     @GetMapping("/age")
     public Collection<Student> getStudentsByAgeBetween(
-            @RequestParam int min,
-            @RequestParam int max) {
+            @RequestParam("min") int min,
+            @RequestParam("max") int max) {
         return studentService.findStudentsByAgeBetween(min, max);
+    }
+
+    @GetMapping("/{id}/faculty")
+    public ResponseEntity<Faculty> getStudentFaculty(@PathVariable Long id) {
+        return studentService.getStudentById(id)
+                .map(s -> ResponseEntity.ok(s.getFaculty()))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

@@ -1,22 +1,26 @@
 package hogwarts.demo.controller;
 
 import hogwarts.demo.model.Faculty;
+import hogwarts.demo.model.Student;
 import hogwarts.demo.service.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/faculty")           // или "/student"
 public class FacultyController {
 
     private final FacultyService service;
+    private final FacultyService facultyService;
 
     @Autowired
-    public FacultyController(FacultyService service) {
+    public FacultyController(FacultyService service, FacultyService facultyService) {
         this.service = service;
+        this.facultyService = facultyService;
     }
 
     @PostMapping
@@ -56,5 +60,17 @@ public class FacultyController {
     @GetMapping("/name/{name}")
     public Collection<Faculty> getByName(@PathVariable String name) {
         return service.findFacultiesByName(name);
+    }
+
+    @GetMapping("/search")
+    public Collection<Faculty> searchFaculties(@RequestParam String q) {
+        return facultyService.findByNameOrColor(q);
+    }
+
+    @GetMapping("/{id}/students")
+    public ResponseEntity<List<Student>> getFacultyStudents(@PathVariable Long id) {
+        return facultyService.getFacultyById(id)
+                .map(f -> ResponseEntity.ok(f.getStudents()))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
