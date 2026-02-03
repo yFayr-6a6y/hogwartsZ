@@ -18,4 +18,7 @@ public class Faculty {
 
     @OneToMany(mappedBy = "faculty")
     private List<Student> students = new ArrayList<>();
+
+    public Faculty(String gryffindor, String red) {
+    }
 }
