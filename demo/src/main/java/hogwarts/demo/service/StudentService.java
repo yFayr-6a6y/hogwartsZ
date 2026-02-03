@@ -1,5 +1,6 @@
 package hogwarts.demo.service;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,6 @@ public class StudentService {
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
-
 
     public Student createStudent(Student student) {
         return studentRepository.save(student);
@@ -48,5 +48,15 @@ public class StudentService {
         return studentRepository.findByAgeBetween(min, max);
     }
 
+    public long getStudentCount() {
+        return studentRepository.getStudentCount();
+    }
 
+    public double getAverageAge() {
+        return studentRepository.getAverageAge();
+    }
+
+    public List<Student> findLastFiveStudents() {
+        return studentRepository.findLastFiveStudents();
+    }
 }
