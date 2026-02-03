@@ -1,10 +1,11 @@
 package hogwarts.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
+import java.util.ArrayList;
+import java.util.List;
 
+@Data
 @Entity
 public class Faculty {
 
@@ -15,48 +16,9 @@ public class Faculty {
     private String name;
     private String color;
 
-    // Конструктор по умолчанию (обязателен для JPA)
-    public Faculty() {
-    }
+    @OneToMany(mappedBy = "faculty")
+    private List<Student> students = new ArrayList<>();
 
-    // Конструктор с параметрами (удобен при создании новых объектов)
-    public Faculty(String name, String color) {
-        this.name = name;
-        this.color = color;
-    }
-
-    // Геттеры и сеттеры
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    // toString — полезен для отладки и логирования
-    @Override
-    public String toString() {
-        return "Faculty{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", color='" + color + '\'' +
-                '}';
+    public Faculty(String gryffindor, String red) {
     }
 }
