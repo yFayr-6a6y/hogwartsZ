@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-index-faculty-name-color
+      author: your-name-or-nickname
+      changes:
+        - createIndex:
+            indexName: idx_faculty_name_color
+            tableName: faculty
+            columns:
+              - column:
+                  name: name
+              - column:
+                  name: color
+            unique: true
