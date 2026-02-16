@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Optional;
 
 @Service
@@ -54,6 +55,13 @@ public class FacultyService {
             return getAllFaculties();
         }
         return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(query, query);
+    }
+
+    public String getLongestFacultyName() {
+        return facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length))
+                .orElse("");
     }
 
 }
