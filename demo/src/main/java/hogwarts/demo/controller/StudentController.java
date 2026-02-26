@@ -94,5 +94,61 @@ public class StudentController {
         return studentService.getAverageAgeStream();
     }
 
+    @GetMapping("/students/print-parallel")
+    public void printStudentsParallel() {
+        List<Student> students = studentService.getAllStudents()
+                .stream()
+                .limit(6)           // берём только первые 6 студентов
+                .toList();
+
+        if (students.size() < 6) {
+            System.out.println("В базе недостаточно студентов (нужно минимум 6)");
+            return;
+        }
+
+        System.out.println("Main thread → " + students.get(0).getName());
+        System.out.println("Main thread → " + students.get(1).getName());
+
+        new Thread(() -> {
+            System.out.println("Thread-1 → " + students.get(2).getName());
+            System.out.println("Thread-1 → " + students.get(3).getName());
+        }).start();
+
+        new Thread(() -> {
+            System.out.println("Thread-2 → " + students.get(4).getName());
+            System.out.println("Thread-2 → " + students.get(5).getName());
+        }).start();
+    }
+
+    private synchronized void printName(String threadName, String studentName) {
+        System.out.println(threadName + " → " + studentName);
+    }
+
+    @GetMapping("/students/print-synchronized")
+    public void printStudentsSynchronized() {
+        List<Student> students = studentService.getAllStudents()
+                .stream()
+                .limit(6)
+                .toList();
+
+        if (students.size() < 6) {
+            System.out.println("В базе недостаточно студентов (нужно минимум 6)");
+            return;
+        }
+
+        printName("Main thread", students.get(0).getName());
+        printName("Main thread", students.get(1).getName());
+
+        new Thread(() -> {
+            printName("Thread-1", students.get(2).getName());
+            printName("Thread-1", students.get(3).getName());
+        }).start();
+
+        new Thread(() -> {
+            printName("Thread-2", students.get(4).getName());
+            printName("Thread-2", students.get(5).getName());
+        }).start();
+    }
+
 
 }
