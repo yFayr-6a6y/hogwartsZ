@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Optional;
 
 @Service
@@ -39,7 +40,6 @@ public class FacultyService {
         return facultyRepository.findAll();
     }
 
-    // Методы поиска — должны точно соответствовать методам в репозитории
 
     public Collection<Faculty> findFacultiesByColor(String color) {
         return facultyRepository.findByColor(color);
@@ -49,10 +49,19 @@ public class FacultyService {
         return facultyRepository.findByName(name);
     }
 
-    // Если используете вариант с ContainingIgnoreCase — переименуйте вызов соответственно
-    // public Collection<Faculty> findFacultiesByNameOrColorContainingIgnoreCase(
-    //         String namePart, String colorPart) {
-    //     return facultyRepository.findByNameIgnoreCaseContainingOrColorIgnoreCaseContaining(
-    //             namePart, colorPart);
-    // }
+
+    public Collection<Faculty> findByNameOrColor(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return getAllFaculties();
+        }
+        return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(query, query);
+    }
+
+    public String getLongestFacultyName() {
+        return facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length))
+                .orElse("");
+    }
+
 }
